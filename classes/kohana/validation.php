@@ -286,6 +286,14 @@ class Kohana_Validation extends ArrayObject {
 				{
 					// This is an array callback, the method name is the error name
 					$error_name = $rule[1];
+
+					// Check if first value has been bound to allow calling methods directly
+					if (is_string($rule[0]) AND array_key_exists($rule[0], $this->_bound))
+					{
+						// Replace with bound value
+						$rule[0] = $this->_bound[$rule[0]];
+					}
+
 					$passed = call_user_func_array($rule, $params);
 				}
 				elseif ( ! is_string($rule))
